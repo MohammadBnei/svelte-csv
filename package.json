@@ -17,6 +17,7 @@
     "svelte": "^3.14.1"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.5"
+    "sirv-cli": "^0.4.5",
+    "svelte-data-grid": "^3.0.0"
   }
 }
