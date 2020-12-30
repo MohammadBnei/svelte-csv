@@ -1,8 +1,18 @@
 {
   "version": 3,
   "file": "bundle.css",
-  "sources": [],
-  "sourcesContent": [],
+  "sources": [
+    "../Datagrid.svelte",
+    "../Header.svelte",
+    "../Rows.svelte",
+    "../Header.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n    import { styles } from \"../Utils/styles\";\n    import Header from \"./Header.svelte\";\n    import Rows from \"./Rows.svelte\";\n\n    export let columns;\n    export let rows;\n\n    let width = columns.reduce((acc, { width }) => acc + width, 0) + 'px';\n</script>\n\n<style>\n    div {\n        padding: 0.5em;\n        margin: auto;\n        width: var(--width);\n    }\n</style>\n\n<div use:styles={{ width }}>\n    <Header {columns} />\n    <Rows {rows} {columns} />\n</div>",
+    "<script>\n    export let columns;\n</script>\n\n<style>\n    div {\n        display: grid;\n        align-items: center;\n        justify-content: center;\n        border-bottom: 1px solid black;\n        border-top: 1px solid gray;\n    }\n    h3 {\n        display: inline-table;\n        text-align: center;\n    }\n</style>\n\n<div>\n    {#each columns as { display, width }}\n        <h3 style={`width: ${width}px;`}>{display}</h3>\n    {/each}\n</div>\n",
+    "<script>\n    export let rows;\n    export let columns;\n</script>\n\n<style>\n    .grid-rows {\n        margin: auto;\n        display: grid;\n        align-items: center;\n        justify-content: center;\n    }\n\n    .grid-row {\n        display: flex;\n        text-align: center;\n    }\n\n    .grid-row-cell {\n        border: 1px solid gray;\n    }\n</style>\n\n<div class=\"grid-rows\">\n    {#each rows as row}\n        <div class=\"grid-row\">\n            {#each columns as { dataName, width }}\n                <h6 class=\"grid-row-cell\" style={`width: ${width}px;`}>\n                    {row[dataName]}\n                </h6>\n            {/each}\n        </div>\n    {/each}\n</div>\n",
+    "<style>\n    p {\n        padding: 2rem;\n        text-align: center;\n        background: #1abc9c;\n        color: white;\n        font-size: 30px;\n    }\n</style>\n\n<p> Svelte csv reader</p>\n"
+  ],
   "names": [],
-  "mappings": ""
+  "mappings": "AAYI,GAAG,cAAC,CAAC,AACD,OAAO,CAAE,KAAK,CACd,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,OAAO,CAAC,AACvB,CAAC;ACXD,GAAG,cAAC,CAAC,AACD,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,eAAe,CAAE,MAAM,CACvB,aAAa,CAAE,GAAG,CAAC,KAAK,CAAC,KAAK,CAC9B,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,AAC9B,CAAC,AACD,EAAE,cAAC,CAAC,AACA,OAAO,CAAE,YAAY,CACrB,UAAU,CAAE,MAAM,AACtB,CAAC;ACTD,UAAU,cAAC,CAAC,AACR,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,eAAe,CAAE,MAAM,AAC3B,CAAC,AAED,SAAS,cAAC,CAAC,AACP,OAAO,CAAE,IAAI,CACb,UAAU,CAAE,MAAM,AACtB,CAAC,AAED,cAAc,cAAC,CAAC,AACZ,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,AAC1B,CAAC;ACnBD,CAAC,cAAC,CAAC,AACC,OAAO,CAAE,IAAI,CACb,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,OAAO,CACnB,KAAK,CAAE,KAAK,CACZ,SAAS,CAAE,IAAI,AACnB,CAAC"
 }
