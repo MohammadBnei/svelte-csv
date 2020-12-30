@@ -48,6 +48,9 @@
         clip: rect(1px, 1px, 1px, 1px);
         white-space: nowrap;
     }
+    div {
+        padding: 20px;
+    }
     label:hover {
         cursor: pointer;
     }

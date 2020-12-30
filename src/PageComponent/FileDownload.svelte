@@ -12,8 +12,8 @@
 
         const reducedRows = rows.reduce((acc, row) => {
             let rowAcc = [];
-            for (const { dataName } of columns) {
-                rowAcc.push(row[dataName]);
+            for (const { dataIndex } of columns) {
+                rowAcc.push(row[dataIndex]);
             }
 
             acc.push(rowAcc);

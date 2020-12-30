@@ -10,7 +10,7 @@
         width = val.columns?.reduce((acc, { width }) => acc + width, 0) + "px";
         gridColumns = val.columns
             ?.reduce(
-                (acc, { width }) => `${acc} ${width ? width + "px" : "minmax(200px, auto)"}`,
+                (acc, { width }) => `${acc} ${width ? width + "px" : "300px"}`,
                 ""
             )
             .trim();
@@ -18,9 +18,6 @@
         columns = val.columns;
         rows = val.rows;
     });
-
-    $: width = width;
-    $: columnWidth = columnWidth;
 </script>
 
 <style>
@@ -30,6 +27,7 @@
         width: var(--width);
         display: grid;
         grid-template-columns: var(--columns);
+        grid-template-rows: 100px auto;
         align-items: center;
         justify-content: center;
     }
@@ -37,5 +35,5 @@
 
 <div use:styles={{ width, columns: gridColumns }}>
     <Header {columns} />
-    <Rows {rows} {columns} />
+    <Rows {rows} {columns} {gridColumns}/>
 </div>

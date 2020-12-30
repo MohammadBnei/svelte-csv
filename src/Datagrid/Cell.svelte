@@ -22,12 +22,11 @@
         font-family: "Roboto", sans-serif;
         color: #333;
         font-size: 1.2rem;
-        margin: 0 auto;
-        padding: 1.5rem 2rem;
+        padding: 1.5rem 1rem;
         border-radius: 0.2rem;
         background-color: rgb(255, 255, 255);
         border: none;
-        width: 90%;
+        width: 100%;
         display: block;
         border-bottom: 0.3rem solid transparent;
         transition: all 0.3s;

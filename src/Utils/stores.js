@@ -4,17 +4,17 @@ import Papa from 'papaparse';
 let columns = [
     {
         display: "Fruit Name", // What will be displayed as the column header
-        dataName: "fruitName", // The key of a row to get the column's data from
+        dataIndex: "fruitName", // The key of a row to get the column's data from
         width: 300, // Width, in pixels, of column
     },
     {
         display: "Color", // What will be displayed as the column header
-        dataName: "fruitColor", // The key of a row to get the column's data from
+        dataIndex: "fruitColor", // The key of a row to get the column's data from
         width: 300, // Width, in pixels, of column
     },
     {
         display: "Like", // What will be displayed as the column header
-        dataName: "like", // The key of a row to get the column's data from
+        dataIndex: "like", // The key of a row to get the column's data from
         width: 250, // Width, in pixels, of column
     },
 ];
@@ -40,38 +40,38 @@ function createCsvReader() {
     const { subscribe, set, update } = writable({ columns, rows })
 
     const loadFile = (csvFile) => {
+        let columns = []
+        let rows = []
+        let meta = null
         Papa.parse(csvFile, {
             dynamicTyping: true,
-            complete: (results) => {
-                const { data, meta } = results
-                if (!data.length) return
+            worker: true,
+            step: function (row) {
+                const { data } = row
 
-                const columns = data[0].map((col, index) => ({
-                    display: col,
-                    dataName: String(index)
-                }))
-
-                const rows = []
-
-                for (let i = 1; i < data.length; i++) {
-                    const element = data[i];
-                    rows.push(element.reduce((acc, cur, index) => {
-                        acc[columns[index].dataName] = cur
-                        return acc
-                    }, {}))
+                if (!columns.length) {
+                    columns = data.map((col, index) => ({
+                        display: col,
+                        dataIndex: index
+                    }))
+                    meta = row.meta
+                    meta.filename = csvFile.name
+                    set({ columns, meta, rows: [] })
+                } else {
+                    rows.push(data)
                 }
-
-                meta.filename = csvFile.name
-
-                set({ columns, rows, meta })
+            },
+            complete: () => {
+                console.log('Load Completed', rows);
+                update(csv => { csv.rows = rows; return csv })
             }
         })
     }
 
     const updateCell = (value, rowData) => {
         update(csv => {
-            csv.rows[rowData.index][rowData.dataName] = value
-
+            csv.rows[rowData.index][rowData.dataIndex] = value
+            console.log({ csv });
             return csv
         })
     }

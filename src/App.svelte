@@ -7,8 +7,8 @@
 
 <style>
   main {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+    display: flex;
+    flex-direction: column;
     place-items: center;
   }
   div {
@@ -24,5 +24,5 @@
     <FileUpload />
     <FileDownLoad />
   </div>
-  <DataGrid />
+    <DataGrid />
 </main>
