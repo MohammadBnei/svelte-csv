@@ -21,19 +21,27 @@
 </script>
 
 <style>
-    div {
+    .container {
         padding: 0.5em;
         margin: auto;
-        width: var(--width);
+        /* width: var(--width); */
         display: grid;
         grid-template-columns: var(--columns);
         grid-template-rows: 100px auto;
         align-items: center;
         justify-content: center;
+        overflow: auto;
+    }
+
+    .row-container {
+        grid-column-start: 1;
+        grid-column-end: -1;
     }
 </style>
 
-<div use:styles={{ width, columns: gridColumns }}>
-    <Header {columns} />
-    <Rows {rows} {columns} {gridColumns}/>
+<div class="container" use:styles={{ width, columns: gridColumns }}>
+        <Header {columns} />
+    <div class="row-container">
+        <Rows {rows} {columns} {gridColumns}/>
+    </div>
 </div>

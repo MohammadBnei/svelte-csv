@@ -11,7 +11,7 @@
     flex-direction: column;
     place-items: center;
   }
-  div {
+  .file {
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -20,9 +20,9 @@
 
 <Header />
 <main>
-  <div>
+  <div class="file">
     <FileUpload />
     <FileDownLoad />
   </div>
-    <DataGrid />
+  <DataGrid />
 </main>
