@@ -10,7 +10,6 @@ export function styles(node, styles) {
 
 function setCustomProperties(node, styles) {
 	Object.entries(styles).forEach(([key, value]) => {
-		console.log({value});
 		node.style.setProperty(`--${key}`, value)
 	})
 }

@@ -65,5 +65,5 @@
         type="file"
         {multiple}
         on:input={onFile(getFilesFromInputEvent)}
-        accept="text/csv" />
+        accept=".csv" />
 </label>
