@@ -1,14 +1,26 @@
 <script>
     import { styles } from "../Utils/styles";
+    import { csvStore } from "../Utils/stores";
     import Header from "./Header.svelte";
     import Rows from "./Rows.svelte";
 
-    export let columns;
-    export let rows;
+    let width, gridColumns, columns, rows;
 
-    let width = columns.reduce((acc, { width }) => acc + width, 0) + "px";
-    let gridColumns =
-        columns.reduce((acc, { width }) => `${acc} ${width}px`, "").trim();
+    const unsubscribe = csvStore.subscribe((val) => {
+        width = val.columns?.reduce((acc, { width }) => acc + width, 0) + "px";
+        gridColumns = val.columns
+            ?.reduce(
+                (acc, { width }) => `${acc} ${width ? width + "px" : "minmax(200px, auto)"}`,
+                ""
+            )
+            .trim();
+
+        columns = val.columns;
+        rows = val.rows;
+    });
+
+    $: width = width;
+    $: columnWidth = columnWidth;
 </script>
 
 <style>

@@ -1,18 +1,12 @@
 <script>
+    import Row from "./Row.svelte";
+
     export let rows;
     export let columns;
 </script>
 
-<style>
-    .grid-cell {
-        border: 1px black dashed;
-        width: 100%;
-        text-align: center;
-    }
-</style>
-
-{#each rows as row}
+{#each rows as row, index}
     {#each columns as { dataName }}
-        <h6 class="grid-cell">{row[dataName]}</h6>
+        <Row value={row[dataName]} rowData={{ index, dataName }} />
     {/each}
 {/each}

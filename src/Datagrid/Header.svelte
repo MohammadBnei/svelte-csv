@@ -3,14 +3,16 @@
 </script>
 
 <style>
-    h3 {
+    .grid-cell {
         display: inline-table;
         text-align: center;
         border: 1px black solid;
-
+        padding: 1rem;
     }
 </style>
 
 {#each columns as { display }}
-    <h3>{display}</h3>
+    <div class="grid-cell">
+        <h3>{display}</h3>
+    </div>
 {/each}
