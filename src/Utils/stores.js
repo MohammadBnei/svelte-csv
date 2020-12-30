@@ -71,7 +71,6 @@ function createCsvReader() {
     const updateCell = (value, rowData) => {
         update(csv => {
             csv.rows[rowData.index][rowData.dataIndex] = value
-            console.log({ csv });
             return csv
         })
     }
