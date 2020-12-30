@@ -74,7 +74,6 @@ function createCsvReader() {
 
             return csv
         })
-
     }
 
     return {
