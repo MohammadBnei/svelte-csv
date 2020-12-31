@@ -4,10 +4,10 @@
 
 <style>
     .grid-cell {
-        display: inline-table;
         text-align: center;
         border: 1px black solid;
         padding: 1rem;
+        height: 100%;
         position: -webkit-sticky; /* Safari */
         position: sticky;
         top: 0;
@@ -18,5 +18,7 @@
 
 <h3 class="grid-cell">#</h3>
 {#each columns as { display }, index}
-    <h3 class="grid-cell">{display}</h3>
+    <div class="grid-cell">
+        <h3>{display}</h3>
+    </div>
 {/each}
