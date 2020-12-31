@@ -36,12 +36,27 @@ let rows = [
     },
 ];
 
+function createLoader() {
+    const { subscribe, set } = writable(false)
+
+    const loading = () => set(true)
+    const endLoading = () => set(false)
+
+    return {
+        subscribe,
+        loading,
+        endLoading
+    }
+}
+
+export const loader = createLoader()
+
 function createCsvReader() {
     const { subscribe, set, update } = writable({ columns, rows })
 
     const loadFile = (csvFile) => {
+        loader.loading()
         let columns = []
-        let rows = []
         let meta = null
         Papa.parse(csvFile, {
             dynamicTyping: true,
@@ -58,12 +73,12 @@ function createCsvReader() {
                     meta.filename = csvFile.name
                     set({ columns, meta, rows: [] })
                 } else {
-                    rows.push(data)
+                    update(csv => { csv.rows.push(data); return csv })
                 }
             },
             complete: () => {
-                console.log('Load Completed', rows);
-                update(csv => { csv.rows = rows; return csv })
+                console.log('Load Completed');
+                loader.endLoading()
             }
         })
     }

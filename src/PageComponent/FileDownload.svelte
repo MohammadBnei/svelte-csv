@@ -1,5 +1,5 @@
 <script>
-    import { csvStore } from "../Utils/stores";
+    import { csvStore, loader } from "../Utils/stores";
     import Papa from "papaparse";
 
     let csvFile = null;
@@ -25,11 +25,13 @@
     };
 
     const downloadCSV = () => {
+        loader.loading();
         const csv = Papa.unparse(formatData(), data.meta);
 
         const file = new Blob([csv], { type: "text/csv" });
 
-        const filename = data.meta?.filename || new Date().toISOString() + '.csv';
+        const filename =
+            data.meta?.filename || new Date().toISOString() + ".csv";
 
         if (window.navigator.msSaveOrOpenBlob)
             // IE10+
@@ -47,6 +49,8 @@
                 window.URL.revokeObjectURL(url);
             }, 0);
         }
+
+        loader.endLoading();
     };
 </script>
 

@@ -1,7 +1,7 @@
 <script>
     import debounce from "debounce";
     import { csvStore } from "../Utils/stores";
-    export let rowData;
+    export let rowData = null;
     export let value = "";
 
     $: value = value;
@@ -35,5 +35,9 @@
 
 
 <div class="grid-cell">
-    <input type="text" class="form__input" bind:value={value} on:change={handleChange}/>
+    {#if rowData}
+         <input type="text" class="form__input" bind:value={value} on:change={handleChange}/>
+    {:else}
+        <h3 class="form__input">{value}</h3>
+    {/if}
 </div>

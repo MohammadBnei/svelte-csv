@@ -4,11 +4,10 @@
     import Header from "./Header.svelte";
     import Rows from "./Rows.svelte";
 
-    let width, gridColumns, columns, rows;
+    let gridColumns, columns, rows;
 
     const unsubscribe = csvStore.subscribe((val) => {
-        width = val.columns?.reduce((acc, { width }) => acc + width, 0) + "px";
-        gridColumns = val.columns
+        gridColumns = "100px " + val.columns
             ?.reduce(
                 (acc, { width }) => `${acc} ${width ? width + "px" : "300px"}`,
                 ""
@@ -22,24 +21,27 @@
 
 <style>
     .container {
-        padding: 0.5em;
-        margin: auto;
-        /* width: var(--width); */
+        padding: 1em;
+        margin: 5px;
+        max-width: 100vw;
+        min-width: 0;
         display: grid;
         grid-template-columns: var(--columns);
         grid-template-rows: 100px auto;
         align-items: center;
-        justify-content: center;
-        overflow: auto;
+        overflow-x: auto;
     }
 
-    .row-container {
+    .row-container{
         grid-column-start: 1;
         grid-column-end: -1;
     }
+    .row-container :global(.virtual-list-wrapper){
+        overflow-x: hidden;
+    }
 </style>
 
-<div class="container" use:styles={{ width, columns: gridColumns }}>
+<div class="container" use:styles={{ columns: gridColumns }}>
         <Header {columns} />
     <div class="row-container">
         <Rows {rows} {columns} {gridColumns}/>

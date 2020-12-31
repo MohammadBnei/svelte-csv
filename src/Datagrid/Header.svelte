@@ -16,6 +16,7 @@
     }
 </style>
 
-{#each columns as { display }}
+<h3 class="grid-cell">#</h3>
+{#each columns as { display }, index}
     <h3 class="grid-cell">{display}</h3>
 {/each}

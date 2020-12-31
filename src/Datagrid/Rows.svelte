@@ -15,10 +15,11 @@
     }
 </style>
 
-<VirtualList width="100%" height={700} itemCount={rows.length} itemSize={75}>
+<VirtualList width="100%" height={600} itemCount={rows.length} itemSize={75}>
     <div slot="item" let:index let:style {style}>
         <div class="row" use:styles={{ columns: gridColumns }}>
-            {#each columns as { dataIndex }}
+            <Cell value={index} />
+            {#each columns as { dataIndex }, index}
                 <Cell
                     value={rows[index][dataIndex]}
                     rowData={{ index, dataIndex }} />

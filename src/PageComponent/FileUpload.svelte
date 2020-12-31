@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { csvStore } from "../Utils/stores";
+    import { csvStore, loader } from "../Utils/stores";
     export let multiple = false;
     let dragging = false;
     const dispatch = createEventDispatcher();
@@ -27,6 +27,7 @@
     }
     const onFile = (getFilesFunction) => (event) => {
         stopDragging();
+        loader.loading()
         const files = getFilesFunction(event);
         if (files.length) {
             const csvFiles = multiple ? files : files[0];
