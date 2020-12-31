@@ -56,7 +56,10 @@
         white-space: nowrap;
     }
     div {
+        margin: 5px 0px;
         padding: 20px;
+        border: 1px solid gray;
+        border-radius: 5px;
     }
     label:hover {
         cursor: pointer;

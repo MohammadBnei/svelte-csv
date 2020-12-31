@@ -1,41 +1,6 @@
 import { writable } from 'svelte/store';
 import Papa from 'papaparse';
 
-let columns = [
-    {
-        display: "Fruit Name", // What will be displayed as the column header
-        dataIndex: "fruitName", // The key of a row to get the column's data from
-        width: 300, // Width, in pixels, of column
-    },
-    {
-        display: "Color", // What will be displayed as the column header
-        dataIndex: "fruitColor", // The key of a row to get the column's data from
-        width: 300, // Width, in pixels, of column
-    },
-    {
-        display: "Like", // What will be displayed as the column header
-        dataIndex: "like", // The key of a row to get the column's data from
-        width: 250, // Width, in pixels, of column
-    },
-];
-let rows = [
-    {
-        fruitName: "Apple",
-        fruitColor: "Red",
-        like: false
-    },
-    {
-        fruitName: "Blueberry",
-        fruitColor: "Blue",
-        like: true
-    },
-    {
-        fruitName: "Tomato",
-        fruitColor: "Red",
-        like: false
-    },
-];
-
 function createLoader() {
     const { subscribe, set } = writable(false)
 
@@ -52,7 +17,7 @@ function createLoader() {
 export const loader = createLoader()
 
 function createCsvReader() {
-    const { subscribe, set, update } = writable({ columns, rows })
+    const { subscribe, set, update } = writable({})
 
     const loadFile = (csvFile) => {
         loader.loading()
@@ -77,7 +42,6 @@ function createCsvReader() {
                 }
             },
             complete: () => {
-                console.log('Load Completed');
                 loader.endLoading()
             }
         })
@@ -89,11 +53,18 @@ function createCsvReader() {
             return csv
         })
     }
+    const updateHeader = (value, index) => {
+        update(csv => {
+            csv.columns[index].display = value
+            return csv
+        })
+    }
 
     return {
         subscribe,
         loadFile,
-        updateCell
+        updateCell,
+        updateHeader
     }
 }
 

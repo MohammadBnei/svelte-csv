@@ -3,11 +3,10 @@
     import { csvStore, loader } from "../Utils/stores";
     import Papa from "papaparse";
 
-    let csvFile = null;
     let data;
 
     const unsubscribe = csvStore.subscribe((val) => (data = val));
-    onDestroy(() => unsubscribe())
+    onDestroy(() => unsubscribe());
 
     const formatData = () => {
         const { columns, rows } = data;
@@ -63,4 +62,6 @@
     }
 </style>
 
-<button on:click={downloadCSV}><strong>Download CSV</strong></button>
+{#if data.columns && data.rows}
+    <button on:click={downloadCSV}><strong>Download CSV</strong></button>
+{/if}
