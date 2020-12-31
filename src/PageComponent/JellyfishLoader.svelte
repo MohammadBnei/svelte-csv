@@ -1,8 +1,11 @@
 <script>
+    import { onDestroy } from "svelte";
     import { loader } from "../Utils/stores";
 
     let loading = false;
     const unsubscribe = loader.subscribe((val) => (loading = val));
+    onDestroy(() => unsubscribe());
+
     const range = (size, startAt = 0) =>
         [...Array(size).keys()].map((i) => i + startAt);
 

@@ -1,9 +1,15 @@
 <script>
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onDestroy } from "svelte";
     import { csvStore, loader } from "../Utils/stores";
     export let multiple = false;
     let dragging = false;
     const dispatch = createEventDispatcher();
+
+    let currentFileName = null;
+
+    const unsubscribe = csvStore.subscribe(val => currentFileName = val.meta?.filename || null )
+
+    onDestroy(() => unsubscribe())
 
     function getFilesFromDropEvent({ dataTransfer: { files, items } }) {
         return files.length

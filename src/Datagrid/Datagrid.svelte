@@ -1,4 +1,5 @@
 <script>
+    import { onDestroy } from "svelte";
     import { styles } from "../Utils/styles";
     import { csvStore } from "../Utils/stores";
     import Header from "./Header.svelte";
@@ -17,6 +18,9 @@
         columns = val.columns;
         rows = val.rows;
     });
+
+    onDestroy(() => unsubscribe())
+
 </script>
 
 <style>

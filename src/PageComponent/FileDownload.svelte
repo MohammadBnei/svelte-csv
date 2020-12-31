@@ -1,4 +1,5 @@
 <script>
+    import { onDestroy } from "svelte";
     import { csvStore, loader } from "../Utils/stores";
     import Papa from "papaparse";
 
@@ -6,6 +7,7 @@
     let data;
 
     const unsubscribe = csvStore.subscribe((val) => (data = val));
+    onDestroy(() => unsubscribe())
 
     const formatData = () => {
         const { columns, rows } = data;
