@@ -1,10 +1,5 @@
 <script>
-    import { onDestroy } from "svelte";
     import { loader } from "../Utils/stores";
-
-    let loading = false;
-    const unsubscribe = loader.subscribe((val) => (loading = val));
-    onDestroy(() => unsubscribe());
 
     const range = (size, startAt = 0) =>
         [...Array(size).keys()].map((i) => i + startAt);
@@ -43,7 +38,7 @@
     }
 </style>
 
-{#if loading}
+{#if $loader}
     <div
         class="wrapper"
         style="--size: {size}{unit}; --color: {color}; --motionOne: {-size / 5}{unit}; --motionTwo: {size / 4}{unit}; --motionThree: {-size / 5}{unit}">

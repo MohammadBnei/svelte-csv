@@ -16,32 +16,41 @@ function createLoader() {
 
 export const loader = createLoader()
 
+export const scrollIndex = writable()
+
 function createCsvReader() {
     const { subscribe, set, update } = writable({})
 
     const loadFile = (csvFile) => {
         loader.loading()
-        let columns = []
+        let columns = null
+        let rows = null
         let meta = null
         Papa.parse(csvFile, {
             dynamicTyping: true,
             worker: true,
+            header: true,
             step: function (row) {
                 const { data } = row
 
-                if (!columns.length) {
-                    columns = data.map((col, index) => ({
-                        display: col,
-                        dataIndex: index
+                if (!columns) {
+                    columns = Object.keys(data).map((key) => ({
+                        display: key,
+                        dataName: key
                     }))
                     meta = row.meta
                     meta.filename = csvFile.name
-                    set({ columns, meta, rows: [] })
+                    rows = [data]
+                    set({ columns, meta, selection: null })
                 } else {
-                    update(csv => { csv.rows.push(data); return csv })
+                    rows.push(data)
                 }
             },
             complete: () => {
+                update(csv => {
+                    csv.rows = rows;
+                    return csv
+                })
                 loader.endLoading()
             }
         })
@@ -49,7 +58,7 @@ function createCsvReader() {
 
     const updateCell = (value, rowData) => {
         update(csv => {
-            csv.rows[rowData.index][rowData.dataIndex] = value
+            csv.rows[rowData.index][rowData.dataName] = value
             return csv
         })
     }
@@ -60,11 +69,44 @@ function createCsvReader() {
         })
     }
 
+    const addRow = () => update((csv) => {
+        if (csv.selection) {
+            csv.rows.splice(csv.selection, 0, [])
+            csv.selection++
+        } else {
+            csv.rows.push([]);
+        }
+
+        return csv
+    });
+
+    const removeRow = () => update((csv) => {
+        if (csv.selection) {
+            csv.rows.splice(csv.selection, 1)
+            csv.selection = null
+        }
+
+        return csv
+    });
+
+    const selectRow = (value) => update(csv => {
+        if (value === csv.selection) {
+            csv.selection = null;
+        } else {
+            csv.selection = value;
+        }
+
+        return csv
+    });
+
     return {
         subscribe,
         loadFile,
         updateCell,
-        updateHeader
+        updateHeader,
+        addRow,
+        selectRow,
+        removeRow
     }
 }
 
