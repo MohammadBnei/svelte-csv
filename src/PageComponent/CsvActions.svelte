@@ -1,7 +1,12 @@
 <script>
+    import debounce from "lodash/debounce";
     import { csvStore, scrollIndex } from "../Utils/stores";
     import FileDownload from "./FileDownload.svelte";
 
+    const handleScrollTo = debounce(
+        (e) => ($scrollIndex = e.target.value && Number(e.target.value)),
+        200
+    );
 </script>
 
 <style>
@@ -13,12 +18,15 @@
     }
 
     input {
-        width: 8em;
-        background: lightgray;
+        width: 10em;
+    }
+
+    ::placeholder {
+        color: white;
     }
 </style>
 
-{#if $csvStore.columns && $csvStore.rows}
+{#if $csvStore}
     <div>
         <FileDownload />
         <button on:click={() => csvStore.addRow()}>Add Row</button>
@@ -26,6 +34,10 @@
             <button on:click={() => csvStore.removeRow()}>Remove Row</button>
         {/if}
 
-        <input type="number" bind:value={$scrollIndex}>
+        <input
+            type="number"
+            value={$scrollIndex}
+            on:input={handleScrollTo}
+            placeholder="Go to line..." />
     </div>
 {/if}

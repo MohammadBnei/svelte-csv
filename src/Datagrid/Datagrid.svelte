@@ -1,20 +1,12 @@
 <script>
-    import { onDestroy } from "svelte";
     import { styles } from "../Utils/styles";
     import { csvStore } from "../Utils/stores";
     import Header from "./Header.svelte";
     import Rows from "./Rows.svelte";
 
-    let gridColumns, columns, rows;
-
-    const unsubscribe = csvStore.subscribe((val) => {
-        gridColumns = val.columns?.reduce((acc) => acc + " 300px", "100px");
-
-        columns = val.columns;
-        rows = val.rows;
-    });
-
-    onDestroy(() => unsubscribe());
+    $: gridColumns = $csvStore?.columns.reduce((acc) => acc + " 300px", "100px");
+    $: columns = $csvStore?.columns
+    $: rows = $csvStore?.rows
 </script>
 
 <style>
@@ -34,7 +26,7 @@
     }
 </style>
 
-{#if columns && rows}
+{#if $csvStore}
     <div class="container" use:styles={{ columns: gridColumns }}>
         <Header {columns} />
         <div class="row-container">

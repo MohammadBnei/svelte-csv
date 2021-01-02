@@ -16,19 +16,24 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    width: 100vw;
     justify-content: center;
+    width: 100%;
+    margin: 5px;
   }
 
   section {
-    width: 95vw;
+    max-width: 95vw;
     box-shadow: 5px 10px 5px gray;
+    padding: 4px;
   }
 
   :global(button, input) {
     padding: 15px;
     border-radius: 5px;
     border: none;
+    background-color: #1abc9c;
+    color: white;
+    cursor: pointer;
   }
 </style>
 

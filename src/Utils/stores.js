@@ -19,34 +19,37 @@ export const loader = createLoader()
 export const scrollIndex = writable()
 
 function createCsvReader() {
-    const { subscribe, set, update } = writable({})
+    const { subscribe, set, update } = writable(null)
 
     const loadFile = (csvFile) => {
         loader.loading()
+        scrollIndex.set(null)
         let columns = null
         let rows = null
-        let meta = null
+        let errors = null
         Papa.parse(csvFile, {
             dynamicTyping: true,
             worker: true,
             header: true,
-            step: function (row) {
-                const { data } = row
-
+            step: function ({ data, meta, errors: _errors }) {
                 if (!columns) {
                     columns = Object.keys(data).map((key) => ({
                         display: key,
                         dataName: key
                     }))
-                    meta = row.meta
                     meta.filename = csvFile.name
                     rows = [data]
                     set({ columns, meta, selection: null })
                 } else {
                     rows.push(data)
                 }
+                errors = _errors
             },
             complete: () => {
+                for (const error of errors) {
+                    console.log(error);
+                    rows.splice(error.row, 1)
+                }
                 update(csv => {
                     csv.rows = rows;
                     return csv
@@ -75,6 +78,7 @@ function createCsvReader() {
             csv.selection++
         } else {
             csv.rows.push([]);
+            scrollIndex.set(csv.rows.length - 1)
         }
 
         return csv

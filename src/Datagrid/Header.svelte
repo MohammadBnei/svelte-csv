@@ -1,12 +1,26 @@
 <script>
+    import debounce from "debounce";
+    import { csvStore } from "../Utils/stores";
     export let columns;
+    let value;
+
+    const handleChange = (index) =>
+        debounce(
+            () => {
+                csvStore.updateHeader(value, index);
+            },
+            200,
+            true
+        );
 </script>
 
 <style>
     .grid-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         border: 1px black solid;
-        padding: 1rem;
         height: 100%;
         position: -webkit-sticky; /* Safari */
         position: sticky;
@@ -16,9 +30,15 @@
     }
 </style>
 
-<h3 class="grid-cell">#</h3>
+<div class="grid-cell">
+    <h3>#</h3>
+</div>
 {#each columns as { display }, index}
     <div class="grid-cell">
-        <h3>{display}</h3>
+        <input
+            type="text"
+            class="form__input"
+            bind:value={display}
+            on:change={handleChange(index)} />
     </div>
 {/each}

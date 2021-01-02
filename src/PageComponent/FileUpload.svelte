@@ -27,7 +27,7 @@
     }
     const onFile = (getFilesFunction) => (event) => {
         stopDragging();
-        loader.loading()
+        loader.loading();
         const files = getFilesFunction(event);
         if (files.length) {
             const csvFiles = multiple ? files : files[0];
@@ -39,8 +39,6 @@
 
 <style>
     input {
-        width: 100%;
-        height: 100%;
         position: absolute !important;
         height: 1px;
         width: 1px;
@@ -49,29 +47,36 @@
         clip: rect(1px, 1px, 1px, 1px);
         white-space: nowrap;
     }
-    div {
-        margin: 5px 15em;
+    .slot {
         padding: 20px;
         border: 1px solid gray;
         border-radius: 5px;
         text-align: center;
-    }
-    label:hover {
         cursor: pointer;
+    }
+
+    .upload {
+        width: 50%;
+        margin: auto;
     }
 </style>
 
-<label
-    class:dragging
-    on:drop|preventDefault={onFile(getFilesFromDropEvent)}
-    on:dragover|preventDefault={startDragging}
-    on:dragleave|preventDefault={stopDragging}>
-    <slot {dragging}>
-        <div>Drag &amp; Drop your file(s) or <strong>browse.</strong></div>
-    </slot>
-    <input
-        type="file"
-        {multiple}
-        on:input={onFile(getFilesFromInputEvent)}
-        accept=".csv" />
-</label>
+<div class="upload">
+    <label
+        class:dragging
+        on:drop|preventDefault={onFile(getFilesFromDropEvent)}
+        on:dragover|preventDefault={startDragging}
+        on:dragleave|preventDefault={stopDragging}>
+        <slot {dragging}>
+            <div class="slot">
+                Drag &amp; Drop your file(s) or
+                <strong>browse.</strong>
+            </div>
+        </slot>
+        <input
+            type="file"
+            {multiple}
+            on:input={onFile(getFilesFromInputEvent)}
+            accept=".csv" />
+    </label>
+</div>
