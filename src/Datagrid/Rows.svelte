@@ -1,7 +1,11 @@
 <script>
     import debounce from "lodash.debounce";
     import VirtualList from "svelte-tiny-virtual-list";
-import { MAX_ROWS_VISIBLE, ROWS_CONTAINER_MAX_HEIGHT, ROW_HEIGHT } from "../Utils/constants";
+    import {
+        MAX_ROWS_VISIBLE,
+        ROWS_CONTAINER_MAX_HEIGHT,
+        ROW_HEIGHT,
+    } from "../Utils/constants";
     import { csvStore, scrollIndex } from "../Utils/stores";
     import { styles } from "../Utils/styles";
     import Cell from "./Cell.svelte";
@@ -11,6 +15,7 @@ import { MAX_ROWS_VISIBLE, ROWS_CONTAINER_MAX_HEIGHT, ROW_HEIGHT } from "../Util
     $: rows = $csvStore.rows;
 
     const afterScrollSmooth = debounce(({ detail }) => {
+        if (detail.offset % ROW_HEIGHT === 0) return;
         let pixelsToRow = 0;
         while (pixelsToRow < detail.offset) {
             pixelsToRow += ROW_HEIGHT;

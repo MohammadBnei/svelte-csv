@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
 import Papa from 'papaparse';
+import is from 'is_js';
+import { writable } from 'svelte/store';
 
 function createLoader() {
     const { subscribe, set } = writable(false);
@@ -23,9 +24,17 @@ function createCsvReader() {
         let columns = null;
         let rows = null;
         let errors = null;
-        Papa.parse(csvFile, {
+        const conf = {
             worker: true,
             header: true,
+        }
+
+        if (is.url(csvFile)) {
+            conf.download = true;
+        }
+        
+        Papa.parse(csvFile, {
+            ...conf,
             step: function ({ data, meta, errors: _errors }) {
                 if (!columns) {
                     columns = Object.keys(data).map((key) => ({
@@ -34,7 +43,7 @@ function createCsvReader() {
                     }));
                     meta.filename = csvFile.name;
                     rows = [data];
-                    set({ columns, meta, selection: null });
+                    set({ columns, meta, selection: null, rows });
                 } else {
                     rows.push(data);
                 }

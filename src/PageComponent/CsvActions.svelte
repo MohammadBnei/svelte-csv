@@ -38,7 +38,7 @@
             type="number"
             value={$scrollIndex}
             on:input={handleScrollTo}
-            max={$csvStore.rows.length - 1}
+            max={$csvStore.rows?.length - 1}
             placeholder="Go to line..." />
     </div>
 {/if}

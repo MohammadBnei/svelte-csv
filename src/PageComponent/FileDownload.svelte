@@ -2,9 +2,13 @@
     import { csvStore, loader } from "../Utils/stores";
     import Papa from "papaparse";
 
-    const downloadCSV = () => {
+    const downloadCSV = async () => {
         loader.loading();
-        const csv = Papa.unparse($csvStore.rows, $csvStore.meta);
+        const csv = await new Promise((resolve, reject) => {
+            const csv = Papa.unparse($csvStore.rows, $csvStore.meta);
+
+            resolve(csv);
+        });
 
         const file = new Blob([csv], { type: "text/csv" });
 

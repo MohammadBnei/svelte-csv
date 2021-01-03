@@ -36,9 +36,9 @@
 {#if $csvStore}
     <section>
         <div class="container" use:styles={{ columns: gridColumns, 'header-row-height': HEADER_ROW_HEIGHT + "px" }}>
-            <Header {columns} />
+            <Header />
             <div class="row-container">
-                <Rows {rows} {columns} {gridColumns} />
+                <Rows {gridColumns} />
             </div>
         </div>
     </section>

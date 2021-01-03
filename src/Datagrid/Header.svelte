@@ -1,7 +1,6 @@
 <script>
     import debounce from "lodash.debounce";
     import { csvStore } from "../Utils/stores";
-    export let columns;
     let value;
 
     const handleChange = (index) =>
@@ -30,9 +29,9 @@
 </style>
 
 <div class="grid-cell">
-    <h3>#</h3>
+    <h3># ({$csvStore.rows.length})</h3>
 </div>
-{#each columns as { display }, index}
+{#each $csvStore.columns as { display }, index}
     <div class="grid-cell">
         <input
             type="text"
