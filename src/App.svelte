@@ -19,14 +19,6 @@
     width: 100%;
     margin: 5px;
   }
-
-  section {
-    max-width: 95vw;
-    max-height: 100vw;
-    box-shadow: 5px 10px 5px gray;
-    padding: 4px;
-  }
-
   :global(button, input) {
     padding: 15px;
     border-radius: 5px;
@@ -43,7 +35,5 @@
     <FileUpload />
     <CsvActions />
   </div>
-  <section>
     <DataGrid />
-  </section>
 </main>

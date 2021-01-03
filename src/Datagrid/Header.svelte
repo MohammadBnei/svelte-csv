@@ -18,11 +18,14 @@
         text-align: center;
         border: 1px black solid;
         height: 100%;
-        position: -webkit-sticky; /* Safari */
         position: sticky;
         top: 0;
         z-index: 9999;
         background-color: white;
+    }
+    .form__input {
+        font-weight: bold;
+        text-align: center;
     }
 </style>
 
