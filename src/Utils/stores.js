@@ -1,5 +1,4 @@
 import Papa from 'papaparse';
-import is from 'is_js';
 import { writable } from 'svelte/store';
 
 function createLoader() {
@@ -27,10 +26,6 @@ function createCsvReader() {
         const conf = {
             worker: true,
             header: true,
-        }
-
-        if (is.url(csvFile)) {
-            conf.download = true;
         }
         
         Papa.parse(csvFile, {
