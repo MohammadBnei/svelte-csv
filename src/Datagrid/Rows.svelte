@@ -62,7 +62,7 @@
             class="row"
             use:styles={{ columns: gridColumns }}
             class:selected={$csvStore.selection === index}>
-            <Cell value={index + 1} />
+            <Cell value={index} />
             {#each $csvStore.columns as { dataName }}
                 <Cell
                     value={rows[index][dataName]}
