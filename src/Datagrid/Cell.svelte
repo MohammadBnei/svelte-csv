@@ -1,27 +1,8 @@
 <script>
+    import debounce from "lodash.debounce";
     import { csvStore } from "../Utils/stores";
     export let rowData = null;
     export let value = "";
-
-    let valueType = "text";
-
-    $: switch (typeof value) {
-        case "boolean":
-            valueType = "checkbox";
-            break;
-        case "number":
-            valueType = "number";
-            break;
-        default:
-            valueType = "text";
-    }
-
-    const handleChange = (e) => {
-        csvStore.updateCell(
-            valueType === "checkbox" ? !value : e.target.value,
-            rowData
-        );
-    };
 </script>
 
 <style>
@@ -58,11 +39,9 @@
 <div class="grid-cell">
     {#if rowData}
         <input
-            type={valueType}
             class="form__input"
-            checked={value}
             {value}
-            on:change={handleChange} />
+            on:input={debounce((e) => csvStore.updateCell(e.target.value, rowData), 300)} />
     {:else}
         <div class="selection-cell" on:click={() => csvStore.selectRow(value)}>
             <h3>{value}</h3>

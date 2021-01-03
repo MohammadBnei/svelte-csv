@@ -28,7 +28,6 @@ function createCsvReader() {
         let rows = null
         let errors = null
         Papa.parse(csvFile, {
-            dynamicTyping: true,
             worker: true,
             header: true,
             step: function ({ data, meta, errors: _errors }) {
@@ -60,6 +59,7 @@ function createCsvReader() {
     }
 
     const updateCell = (value, rowData) => {
+        console.log({ value, rowData });
         update(csv => {
             csv.rows[rowData.index][rowData.dataName] = value
             return csv
@@ -73,11 +73,16 @@ function createCsvReader() {
     }
 
     const addRow = () => update((csv) => {
+        const newRow = csv.columns.reduce((acc, { dataName }) => {
+            acc[dataName] = ''
+            return acc
+        }, {})
+        console.log(newRow);
         if (csv.selection) {
-            csv.rows.splice(csv.selection, 0, [])
+            csv.rows.splice(csv.selection, 0, newRow)
             csv.selection++
         } else {
-            csv.rows.push([]);
+            csv.rows.push(newRow);
             scrollIndex.set(csv.rows.length - 1)
         }
 

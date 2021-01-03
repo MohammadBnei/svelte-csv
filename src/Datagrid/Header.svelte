@@ -1,17 +1,13 @@
 <script>
-    import debounce from "debounce";
+    import debounce from "lodash.debounce";
     import { csvStore } from "../Utils/stores";
     export let columns;
     let value;
 
     const handleChange = (index) =>
-        debounce(
-            () => {
-                csvStore.updateHeader(value, index);
-            },
-            200,
-            true
-        );
+        debounce(() => {
+            csvStore.updateHeader(value, index);
+        }, 200);
 </script>
 
 <style>

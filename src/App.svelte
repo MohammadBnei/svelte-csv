@@ -1,6 +1,5 @@
 <script>
   import DataGrid from "./Datagrid/Datagrid.svelte";
-  import FileDownLoad from "./PageComponent/FileDownload.svelte";
   import FileUpload from "./PageComponent/FileUpload.svelte";
   import CsvActions from "./PageComponent/CsvActions.svelte";
   import Header from "./PageComponent/Header.svelte";

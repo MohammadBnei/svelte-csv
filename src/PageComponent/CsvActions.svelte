@@ -1,5 +1,5 @@
 <script>
-    import debounce from "lodash/debounce";
+    import debounce from 'lodash.debounce'
     import { csvStore, scrollIndex } from "../Utils/stores";
     import FileDownload from "./FileDownload.svelte";
 
