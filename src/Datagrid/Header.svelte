@@ -4,8 +4,8 @@
     let value;
 
     const handleChange = (index) =>
-        debounce(() => {
-            csvStore.updateHeader(value, index);
+        debounce((e) => {
+            csvStore.updateHeader(e.target.value, index);
         }, 200);
 </script>
 
@@ -36,7 +36,7 @@
         <input
             type="text"
             class="form__input"
-            bind:value={display}
-            on:change={handleChange(index)} />
+            value={display}
+            on:input={handleChange(index)} />
     </div>
 {/each}
