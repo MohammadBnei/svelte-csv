@@ -11,8 +11,6 @@
 
 <style>
     .container {
-        max-width: 100vw;
-        min-width: 0;
         display: grid;
         grid-template-columns: var(--columns);
         grid-template-rows: 75px auto;

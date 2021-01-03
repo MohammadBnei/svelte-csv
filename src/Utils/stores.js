@@ -2,10 +2,10 @@ import { writable } from 'svelte/store';
 import Papa from 'papaparse';
 
 function createLoader() {
-    const { subscribe, set } = writable(false)
+    const { subscribe, set } = writable(false);
 
-    const loading = () => set(true)
-    const endLoading = () => set(false)
+    const loading = () => set(true);
+    const endLoading = () => set(false);
 
     return {
         subscribe,
@@ -14,19 +14,15 @@ function createLoader() {
     }
 }
 
-export const loader = createLoader()
-
-export const scrollIndex = writable()
-
 function createCsvReader() {
-    const { subscribe, set, update } = writable(null)
+    const { subscribe, set, update } = writable(null);
 
     const loadFile = (csvFile) => {
-        loader.loading()
-        scrollIndex.set(null)
-        let columns = null
-        let rows = null
-        let errors = null
+        loader.loading();
+        scrollIndex.set(null);
+        let columns = null;
+        let rows = null;
+        let errors = null;
         Papa.parse(csvFile, {
             worker: true,
             header: true,
@@ -35,64 +31,63 @@ function createCsvReader() {
                     columns = Object.keys(data).map((key) => ({
                         display: key,
                         dataName: key
-                    }))
-                    meta.filename = csvFile.name
-                    rows = [data]
-                    set({ columns, meta, selection: null })
+                    }));
+                    meta.filename = csvFile.name;
+                    rows = [data];
+                    set({ columns, meta, selection: null });
                 } else {
-                    rows.push(data)
+                    rows.push(data);
                 }
-                errors = _errors
+                errors = _errors;
             },
             complete: () => {
                 for (const error of errors) {
                     console.log(error);
-                    rows.splice(error.row, 1)
+                    rows.splice(error.row, 1);
                 }
                 update(csv => {
                     csv.rows = rows;
-                    return csv
+                    return csv;
                 })
-                loader.endLoading()
+
+                loader.endLoading();
             }
         })
     }
 
     const updateCell = (value, rowData) => {
-        console.log({ value, rowData });
         update(csv => {
-            csv.rows[rowData.index][rowData.dataName] = value
-            return csv
+            csv.rows[rowData.index][rowData.dataName] = value;
+            return csv;
         })
     }
     const updateHeader = (value, index) => {
         update(csv => {
-            csv.columns[index].display = value
-            return csv
+            csv.columns[index].display = value;
+            return csv;
         })
     }
 
     const addRow = () => update((csv) => {
         const newRow = csv.columns.reduce((acc, { dataName }) => {
-            acc[dataName] = ''
-            return acc
+            acc[dataName] = '';
+            return acc;
         }, {})
-        console.log(newRow);
         if (csv.selection) {
-            csv.rows.splice(csv.selection, 0, newRow)
-            csv.selection++
+            csv.rows.splice(csv.selection, 0, newRow);
+            csv.selection++;
         } else {
             csv.rows.push(newRow);
-            scrollIndex.set(csv.rows.length - 1)
+            scrollIndex.set(csv.rows.length - 1);
         }
 
-        return csv
+        return csv;
     });
 
     const removeRow = () => update((csv) => {
         if (csv.selection) {
-            csv.rows.splice(csv.selection, 1)
-            csv.selection = null
+            csv.rows.splice(csv.selection, 1);
+            csv.selection = null;
         }
 
         return csv
@@ -105,7 +100,7 @@ function createCsvReader() {
             csv.selection = value;
         }
 
-        return csv
+        return csv;
     });
 
     return {
@@ -115,8 +110,10 @@ function createCsvReader() {
         updateHeader,
         addRow,
         selectRow,
-        removeRow
+        removeRow,
     }
 }
 
-export const csvStore = createCsvReader()
+export const csvStore = createCsvReader();
+export const loader = createLoader();
+export const scrollIndex = writable();

@@ -22,6 +22,7 @@
 
   section {
     max-width: 95vw;
+    max-height: 100vw;
     box-shadow: 5px 10px 5px gray;
     padding: 4px;
   }
